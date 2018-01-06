@@ -14,74 +14,83 @@ const quizConstants = {
     MULTIPLE_CHOICE: 'MULTIPLE_CHOICE'
 };
 
-const mockQuiz = {
-    title: 'The Python Bridge',
-    key:     'python-bridge-quiz',
-    questions: [
-        {
-            key: 'your-name',
-            type: quizConstants.SHORT_ANSWER,
-            required: true,
-            prompt: 'What is your name?'
-        },
-        {
-            key: 'your-quest',
-            type: quizConstants.MULTIPLE_CHOICE,
-            required: true,
-            prompt: 'What is your quest?',
-            options: [
-                {
-                    value: 'grail',
-                    text: 'I seek the Holy Grail',
-                    correct: true
-                },
-                {
-                    value: 'shrubbery',
-                    text: 'I desire a shrubbery',
-                    correct: false
-                },
-                {
-                    value: 'groceries',
-                    text: 'I seek the grocery store',
-                    correct: false
-                }
-            ]
-        },
-        {
-            key: 'your-favorite-color',
-            type: quizConstants.SHORT_ANSWER,
-            required: false,
-            prompt: 'What is your favorite color?'
-        },
-        {
-            key: 'bunny-preference',
-            type: quizConstants.MULTIPLE_CHOICE,
-            required: true,
-            prompt: 'Killer Bunny?',
-            options: [
-                {
-                    value: 'yes',
-                    text: 'Yes, please',
-                    correct: true
-                },
-                {
-                    value: 'no',
-                    text: 'No, thank you',
-                    correct: false
-                }
+const mockCellList = [
+    'python-bridge-quiz'
+];
 
-            ]
-        }
-    ]
+const mockQuizMap = {
+    'python-bridge-quiz': {
+        title: 'The Python Bridge',
+        key: 'python-bridge-quiz',
+        questions: [
+            {
+                key: 'your-name',
+                type: quizConstants.SHORT_ANSWER,
+                required: true,
+                prompt: 'What is your name?'
+            },
+            {
+                key: 'your-quest',
+                type: quizConstants.MULTIPLE_CHOICE,
+                required: true,
+                prompt: 'What is your quest?',
+                options: [
+                    {
+                        value: 'grail',
+                        text: 'I seek the Holy Grail',
+                        correct: true
+                    },
+                    {
+                        value: 'shrubbery',
+                        text: 'I desire a shrubbery',
+                        correct: false
+                    },
+                    {
+                        value: 'groceries',
+                        text: 'I seek the grocery store',
+                        correct: false
+                    }
+                ]
+            },
+            {
+                key: 'your-favorite-color',
+                type: quizConstants.SHORT_ANSWER,
+                required: false,
+                prompt: 'What is your favorite color?'
+            },
+            {
+                key: 'bunny-preference',
+                type: quizConstants.MULTIPLE_CHOICE,
+                required: true,
+                prompt: 'Killer Bunny?',
+                options: [
+                    {
+                        value: 'yes',
+                        text: 'Yes, please',
+                        correct: true
+                    },
+                    {
+                        value: 'no',
+                        text: 'No, thank you',
+                        correct: false
+                    }
+
+                ]
+            }
+        ]
+    }
 };
 
 // Add the route
 server.route([
     {
         method: 'GET',
-        path:'/hello',
+        path: '/api/cells',
+        options: {
+            cors: true
+        },
         handler: function (request, h) {
-            return 'hello world';
+            return mockCellList;
         }
     },
     {
@@ -91,7 +100,7 @@ server.route([
             cors: true
         },
         handler: function (request, h) {
-            return [ mockQuiz ];
+            return mockQuizMap;
         }
     }
 ]);
