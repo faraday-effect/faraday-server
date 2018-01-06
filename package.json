@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "blipp": "^3.0.0",
+    "boom": "^7.1.1",
     "good": "^8.0.0-rc1",
     "good-console": "^6.4.1",
     "good-squeeze": "^5.0.2",
-    "hapi": "^17.2.0"
+    "hapi": "^17.2.0",
+    "hapi-mongodb": "^7.1.0",
+    "mongodb": "^3.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.14.7"
