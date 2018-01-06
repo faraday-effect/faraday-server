@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
+const Blipp = require('blipp');
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -52,6 +53,25 @@ const mockQuiz = {
             required: false,
             prompt: 'What is your favorite color?'
         },
+        {
+            key: 'bunny-preference',
+            type: quizConstants.MULTIPLE_CHOICE,
+            required: true,
+            prompt: 'Killer Bunny?',
+            options: [
+                {
+                    value: 'yes',
+                    text: 'Yes, please',
+                    correct: true
+                },
+                {
+                    value: 'no',
+                    text: 'No, thank you',
+                    correct: false
+                }
+
+            ]
+        }
     ]
 };
 
@@ -67,8 +87,11 @@ server.route([
     {
         method: 'GET',
         path: '/api/quizzes',
+        options: {
+            cors: true
+        },
         handler: function (request, h) {
-            return mockQuiz;
+            return [ mockQuiz ];
         }
     }
 ]);
@@ -76,6 +99,21 @@ server.route([
 // Start the server
 async function start() {
     try {
+        await server.register({
+            plugin: require('good'),
+            options: {
+                reporters: {
+                    consoleReporter: [{
+                        module: 'good-squeeze',
+                        name: 'Squeeze',
+                        args: [{ log: '*', response: '*' }]
+                    }, {
+                        module: 'good-console'
+                    }, 'stdout']
+                }
+            }
+        });
+        await server.register(Blipp);
         await server.start();
     }
     catch (err) {
@@ -84,6 +122,6 @@ async function start() {
     }
 
     console.log('Server running at:', server.info.uri);
-};
+}
 
 start();
