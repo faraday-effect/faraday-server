@@ -1,0 +1,10 @@
+[
+  {
+    "key": "teacher",
+    "name": "Professor"
+  },
+  {
+    "key": "student",
+    "name": "Student"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "key": "spring2018",
+    "startInstruction": "2018-01-30",
+    "endInstruction": "2018-05-11",
+    "startFinals": "2018-05-14",
+    "endFInals": "2018-05-17",
+    "holidays": [
+      {
+        "name": "Spring Break",
+        "startDate": "2018-03-24",
+        "endDate": "2018-04-01"
+      }
+    ]
+  }
+]

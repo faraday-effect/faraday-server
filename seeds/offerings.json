@@ -1,0 +1,84 @@
+[
+  {
+    "courseKey": "sys394",
+    "semester": "spring2018",
+    "sections": [
+      {
+        "key": "section1",
+        "teacher": "genepoole",
+        "meetings": [
+          {
+            "day": "M",
+            "startTime": "11:00",
+            "endTime": "11:50",
+            "room": "103"
+          },
+          {
+            "day": "W",
+            "startTime": "11:00",
+            "endTime": "11:50",
+            "room": "103"
+          },
+          {
+            "day": "F",
+            "startTime": "11:00",
+            "endTime": "11:50",
+            "room": "103"
+          }
+        ]
+      },
+      {
+        "key": "section2",
+        "teacher": "mobilhome",
+        "meetings": [
+          {
+            "day": "M",
+            "startTime": "13:00",
+            "endTime": "13:50",
+            "room": "201"
+          },
+          {
+            "day": "W",
+            "startTime": "13:00",
+            "endTime": "13:50",
+            "room": "201"
+          },
+          {
+            "day": "F",
+            "startTime": "13:00",
+            "endTime": "13:50",
+            "room": "201"
+          }
+        ]
+      }
+    ],
+    "topics": [
+      {
+        "title": "Async JavaScript 1",
+        "cells": [
+          {
+            "lectureKey": "callbacks",
+            "type": "lecture"
+          },
+          {
+            "quizKey": "python-bridge-quiz",
+            "type":"quiz"
+          }
+        ]
+      },
+      {
+        "title": "Async JavaScript 2",
+        "cells": [
+          {
+            "lectureKey": "promises",
+            "type": "lecture"
+          },
+          {
+            "quizKey": "promise-quiz",
+            "type":"quiz"
+          }
+        ]
+      }
+    ]
+  }
+]
