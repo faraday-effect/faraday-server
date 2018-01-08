@@ -1,6 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
+const Nes = require('nes');
 const Boom = require('boom');
 const Blipp = require('blipp');
 
@@ -46,6 +47,8 @@ async function start() {
 
     await server.register(Blipp);
 
+    await server.register(Nes);
+
     server.route([
         {
             method: 'GET',
@@ -80,6 +83,17 @@ async function start() {
                 }
                 catch (err) {
                     throw Boom.internal('Internal MongoDB error', err);
+                }
+            }
+        },
+        {
+            method: 'GET',
+            path: '/h',
+            config: {
+                id: 'hello',
+                handler: (request, h) => {
+                    server.broadcast('ZIPFACE WHIPERDOODLE');
+                    return 'world!';
                 }
             }
         }
