@@ -20,6 +20,10 @@
     "nes": "^7.0.2"
   },
   "devDependencies": {
-    "nodemon": "^1.14.7"
+    "faker": "^4.1.0",
+    "nodemon": "^1.14.7",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "yargs": "^10.1.1"
   }
 }

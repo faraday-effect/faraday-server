@@ -47,7 +47,16 @@ async function start() {
 
     await server.register(Blipp);
 
-    await server.register(Nes);
+    await server.register({
+        plugin: Nes,
+        options: {
+            onConnection: socket => console.log(`client connected - id=${socket.id}`),
+            onDisconnection: socket => console.log(`client disconnected - id=${socket.id}`),
+            onMessage: async (socket, message) => {
+                console.log(`message from ${socket.id}: ${message}`);
+            }
+        }
+    });
 
     server.route([
         {
@@ -57,11 +66,8 @@ async function start() {
                 cors: true
             },
             handler: async function(request, h) {
-                const db = request.mongo.db;
-                const ObjectID = request.mongo.ObjectID;
-
                 try {
-                    return await db.collection('cells').find().toArray();
+                    return await request.mongo.db.collection('cells').find().toArray();
                 }
                 catch (err) {
                     throw Boom.internal('Internal MongoDB error', err);
@@ -75,17 +81,30 @@ async function start() {
                 cors: true
             },
             handler: async function(request, h) {
-                const db = request.mongo.db;
-                const ObjectID = request.mongo.ObjectID;
-
                 try {
-                    return await db.collection('quizzes').find().toArray();
+                    return await request.mongo.db.collection('quizzes').find().toArray();
                 }
                 catch (err) {
                     throw Boom.internal('Internal MongoDB error', err);
                 }
             }
         },
+        {
+            method: 'GET',
+            path: '/api/users',
+            options: {
+                cors: true
+            },
+            handler: async function(request, h) {
+                try {
+                    return await request.mongo.db.collection('users').find().toArray();
+                }
+                catch (err) {
+                    throw Boom.internal('Internal MongoDB error', err);
+                }
+            }
+        },
+
         {
             method: 'GET',
             path: '/h',
