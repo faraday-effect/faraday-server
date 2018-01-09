@@ -104,7 +104,16 @@ async function start() {
                 }
             }
         },
-
+        {
+            method: 'POST',
+            path: '/api/users',
+            options: {
+                cors: true
+            },
+            handler: async function(request, h) {
+                return await request.mongo.db.collection('users').insertOne(request.payload);
+            }
+        },
         {
             method: 'GET',
             path: '/h',
