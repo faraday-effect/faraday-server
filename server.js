@@ -115,6 +115,26 @@ async function start() {
             }
         },
         {
+            method: 'POST',
+            path: '/api/notes',
+            options: {
+                cors: true
+            },
+            handler: async function(request, h) {
+                return await request.mongo.db.collection('notes').insertOne(request.payload);
+            }
+        },
+        {
+            method: 'GET',
+            path: '/api/notes',
+            options: {
+                cors: true
+            },
+            handler: async function(request, h) {
+                return await request.mongo.db.collection('notes').find().toArray();
+            }
+        },
+        {
             method: 'GET',
             path: '/h',
             config: {
