@@ -11,11 +11,13 @@
   "dependencies": {
     "blipp": "^3.0.0",
     "boom": "^7.1.1",
+    "debug": "^3.1.0",
     "good": "^8.0.0-rc1",
     "good-console": "^6.4.1",
     "good-squeeze": "^5.0.2",
     "hapi": "^17.2.0",
     "hapi-mongodb": "^7.1.0",
+    "invariant": "^2.2.2",
     "mongodb": "^3.0.1",
     "nes": "^7.0.2"
   },
