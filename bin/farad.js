@@ -3,7 +3,10 @@
 const fs = require('fs');
 const faker = require('faker');
 const request = require('request-promise');
+const debug = require('debug')('farad');
+
 const baseUrl = 'http://localhost:8000/api';
+const preprocessMarkdown = require('../lib/markdownPreprocessor');
 
 function requestJson(endpoint) {
     return request.get({
@@ -51,20 +54,18 @@ async function fakeUsers(n) {
 }
 
 function addNotes(key, fileName) {
-    console.log("ADD NOTES", key, fileName);
-    fs.readFile(fileName, 'utf8', async (err, data) => {
-        if (err) {
-            throw new Error(`Can't read ${fileName}: ${err}`);
-        }
-        await request.post({
-            url: `${baseUrl}/notes`,
-            json: true,
-            body: {
-                key,
-                content: data
-            }
+    debug(`Add ${fileName} under ${key}`);
+    preprocessMarkdown(fileName)
+        .then(noteMd => {
+            return request.post({
+                url: `${baseUrl}/notes`,
+                json: true,
+                body: {
+                    key,
+                    content: noteMd
+                }
+            });
         });
-    });
 }
 
 const argv = require('yargs')
@@ -97,4 +98,3 @@ const argv = require('yargs')
         })
     .help()
     .argv;
-

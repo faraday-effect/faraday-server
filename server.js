@@ -1,12 +1,10 @@
 'use strict';
 
-const Hapi = require('hapi');
-const Nes = require('nes');
+const Joi = require('joi');
 const Boom = require('boom');
-const Blipp = require('blipp');
 
 // Create a server with a host and port
-const server = Hapi.server({
+const server = require('hapi').server({
     host: 'localhost',
     port: 8000
 });
@@ -45,10 +43,10 @@ async function start() {
         }
     });
 
-    await server.register(Blipp);
+    await server.register(require('blipp'));
 
     await server.register({
-        plugin: Nes,
+        plugin: require('nes'),
         options: {
             onConnection: socket => console.log(`client connected - id=${socket.id}`),
             onDisconnection: socket => console.log(`client disconnected - id=${socket.id}`),
@@ -126,12 +124,26 @@ async function start() {
         },
         {
             method: 'GET',
-            path: '/api/notes',
+            path: '/api/notes/{destination}',
             options: {
-                cors: true
+                cors: true,
+                validate: {
+                    params: {
+                        destination: Joi.string().valid('notes', 'projector', 'podium', 'participant')
+                    }
+                }
             },
             handler: async function(request, h) {
-                return await request.mongo.db.collection('notes').find().toArray();
+                return await request.mongo.db.collection('notes').aggregate([
+                    {$unwind: '$content.segments'},
+                    {$match: {'content.segments.for': request.params.destination}},
+                    {$project: {
+                            _id: 0,
+                            key: '$content.segments.key',
+                            content: '$content.segments.content'
+                        }
+                    }
+                ]).toArray();
             }
         },
         {

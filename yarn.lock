@@ -1025,7 +1025,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-joi@13.x.x, joi@^13.0.1:
+joi@13.x.x, joi@^13.0.1, joi@^13.1.0:
   version "13.1.0"
   resolved "https://registry.yarnpkg.com/joi/-/joi-13.1.0.tgz#59e7b8714b932a1e342c3583d5841d7169ff1822"
   dependencies:
