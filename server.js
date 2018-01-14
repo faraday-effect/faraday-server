@@ -2,17 +2,29 @@
 
 const Joi = require('joi');
 const Boom = require('boom');
+const invariant = require('invariant');
+const hljs = require('highlight.js');
+const md = require('markdown-it')({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return '<pre class="hljs"><code>' +
+                    hljs.highlight(lang, str, true).value +
+                    '</code></pre>';
+            } catch (__) {}
+        }
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+    }
+});
 
 // Create a server with a host and port
 const server = require('hapi').server({
     host: 'localhost',
     port: 8000
 });
-
-const quizConstants = {
-    SHORT_ANSWER: 'SHORT_ANSWER',
-    MULTIPLE_CHOICE: 'MULTIPLE_CHOICE'
-};
 
 // Start the server
 async function start() {
@@ -129,32 +141,48 @@ async function start() {
                 cors: true,
                 validate: {
                     params: {
-                        destination: Joi.string().valid('notes', 'projector', 'podium', 'participant')
+                        destination: Joi.string().valid('projector', 'podium', 'participant', 'publication')
                     }
                 }
             },
             handler: async function(request, h) {
-                return await request.mongo.db.collection('notes').aggregate([
-                    {$unwind: '$content.segments'},
-                    {$match: {'content.segments.for': request.params.destination}},
-                    {$project: {
-                            _id: 0,
-                            key: '$content.segments.key',
-                            content: '$content.segments.content'
-                        }
+                const notes = await request.mongo.db.collection('notes').find().toArray();
+                const note = notes[0];
+
+                const matchingOutputs = new Set();
+                matchingOutputs.add(request.params.destination);
+                for (let key of Object.keys(note.outputMap)) {
+                    if (note.outputMap[key].find(entry => entry === request.params.destination)) {
+                        matchingOutputs.add(key);
                     }
-                ]).toArray();
-            }
-        },
-        {
-            method: 'GET',
-            path: '/h',
-            config: {
-                id: 'hello',
-                handler: (request, h) => {
-                    server.broadcast('ZIPFACE WHIPERDOODLE');
-                    return 'world!';
                 }
+
+                function formatContent(segment) {
+                    const contentString = segment.content.join('\n');
+                    switch(segment.type[0]) {
+                        case 'listing':
+                            invariant(segment.type.length >= 2, `Invalid listing type: ${segment.type}`);
+                            const language = segment.type[1];
+                            const hlCode = hljs.highlight(language, contentString);
+                            return `<pre><code class="${language} hljs">${hlCode.value}</code></pre>`;
+                        case 'markdown':
+                            return md.render(contentString);
+                        default:
+                            throw new Error(`Invalid segment type: ${segment.type}`);
+                    }
+                }
+
+                const results = [];
+                note.segments.map((segment, idx) => {
+                    if (matchingOutputs.has(segment.output)) {
+                        results.push({
+                            key: segment.key || `segment-${idx}`,
+                            type: segment.type,
+                            content: formatContent(segment)
+                        });
+                    }
+                });
+                return results;
             }
         }
     ]);
