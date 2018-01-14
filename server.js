@@ -26,6 +26,21 @@ const server = require('hapi').server({
     port: 8000
 });
 
+function formatSegment(segment) {
+    const contentString = segment.content.join('\n');
+    switch (segment.type[0]) {
+        case 'listing':
+            invariant(segment.type.length >= 2, `Invalid listing type: ${segment.type}`);
+            const language = segment.type[1];
+            const hlCode = hljs.highlight(language, contentString);
+            return `<pre><code class="${language} hljs">${hlCode.value}</code></pre>`;
+        case 'markdown':
+            return md.render(contentString);
+        default:
+            throw new Error(`Invalid segment type: ${segment.type}`);
+    }
+}
+
 // Start the server
 async function start() {
 
@@ -147,42 +162,35 @@ async function start() {
             },
             handler: async function(request, h) {
                 const talks = await request.mongo.db.collection('talks').find().toArray();
-                const talk = talks[0];
 
-                const matchingOutputs = new Set();
-                matchingOutputs.add(request.params.destination);
-                for (let key of Object.keys(talk.outputMap)) {
-                    if (talk.outputMap[key].find(entry => entry === request.params.destination)) {
-                        matchingOutputs.add(key);
+                const allResults = [];
+                for (let talk of talks) {
+                    const matchingOutputs = new Set();
+                    matchingOutputs.add(request.params.destination);
+                    for (let key of Object.keys(talk.outputMap)) {
+                        if (talk.outputMap[key].find(entry => entry === request.params.destination)) {
+                            matchingOutputs.add(key);
+                        }
                     }
+
+                    const results = [];
+                    talk.segments.map((segment, idx) => {
+                        if (matchingOutputs.has(segment.output)) {
+                            results.push({
+                                key: segment.key || `segment-${idx}`,
+                                type: segment.type,
+                                content: formatSegment(segment)
+                            });
+                        }
+                    });
+                    allResults.push({
+                        title: talk.title,
+                        topic: talk.topic,
+                        segments: results
+                    });
                 }
 
-                function formatContent(segment) {
-                    const contentString = segment.content.join('\n');
-                    switch(segment.type[0]) {
-                        case 'listing':
-                            invariant(segment.type.length >= 2, `Invalid listing type: ${segment.type}`);
-                            const language = segment.type[1];
-                            const hlCode = hljs.highlight(language, contentString);
-                            return `<pre><code class="${language} hljs">${hlCode.value}</code></pre>`;
-                        case 'markdown':
-                            return md.render(contentString);
-                        default:
-                            throw new Error(`Invalid segment type: ${segment.type}`);
-                    }
-                }
-
-                const results = [];
-                talk.segments.map((segment, idx) => {
-                    if (matchingOutputs.has(segment.output)) {
-                        results.push({
-                            key: segment.key || `segment-${idx}`,
-                            type: segment.type,
-                            content: formatContent(segment)
-                        });
-                    }
-                });
-                return results;
+                return allResults;
             }
         }
     ]);
