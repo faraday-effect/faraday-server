@@ -126,17 +126,17 @@ async function start() {
         },
         {
             method: 'POST',
-            path: '/api/notes',
+            path: '/api/talks',
             options: {
                 cors: true
             },
             handler: async function(request, h) {
-                return await request.mongo.db.collection('notes').insertOne(request.payload);
+                return await request.mongo.db.collection('talks').insertOne(request.payload);
             }
         },
         {
             method: 'GET',
-            path: '/api/notes/{destination}',
+            path: '/api/talks/{destination}',
             options: {
                 cors: true,
                 validate: {
@@ -146,13 +146,13 @@ async function start() {
                 }
             },
             handler: async function(request, h) {
-                const notes = await request.mongo.db.collection('notes').find().toArray();
-                const note = notes[0];
+                const talks = await request.mongo.db.collection('talks').find().toArray();
+                const talk = talks[0];
 
                 const matchingOutputs = new Set();
                 matchingOutputs.add(request.params.destination);
-                for (let key of Object.keys(note.outputMap)) {
-                    if (note.outputMap[key].find(entry => entry === request.params.destination)) {
+                for (let key of Object.keys(talk.outputMap)) {
+                    if (talk.outputMap[key].find(entry => entry === request.params.destination)) {
                         matchingOutputs.add(key);
                     }
                 }
@@ -173,7 +173,7 @@ async function start() {
                 }
 
                 const results = [];
-                note.segments.map((segment, idx) => {
+                talk.segments.map((segment, idx) => {
                     if (matchingOutputs.has(segment.output)) {
                         results.push({
                             key: segment.key || `segment-${idx}`,

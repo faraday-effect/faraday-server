@@ -2,7 +2,7 @@
 
 # Import JSON content into MongoDB.
 
-for c in courses lectures notes offerings quizzes roles semesters users
+for c in courses lectures offerings quizzes roles semesters talks users
 do
     echo ===== ${c} =====
     mongo --quiet faraday --eval "db.$c.drop()"

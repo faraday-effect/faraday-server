@@ -4,7 +4,7 @@
         "title": "Flask Templates",
         "outputMap": {
             "all": ["projector", "podium", "participant", "publication"],
-            "notes": ["podium", "publication"]
+            "details": ["podium", "publication"]
         },
         "segments": [
             {
@@ -12,7 +12,7 @@
                 "type": [
                     "markdown"
                 ],
-                "output": "notes",
+                "output": "details",
                 "content": [
                     "# Flask/Jinja Templates of Doom",
                     "",
@@ -31,7 +31,7 @@
                 "type": [
                     "markdown"
                 ],
-                "output": "notes",
+                "output": "details",
                 "content": [
                     "# Some Code",
                     "```js",
@@ -58,7 +58,7 @@
                 "type": [
                     "markdown"
                 ],
-                "output": "notes",
+                "output": "details",
                 "content": [
                     "The `hello.html` file itself contains the following."
                 ]
@@ -89,7 +89,7 @@
                 "type": [
                     "markdown"
                 ],
-                "output": "notes",
+                "output": "details",
                 "content": [
                     "# Basic Templates",
                     "",
@@ -128,7 +128,7 @@
                 "type": [
                     "markdown"
                 ],
-                "output": "notes",
+                "output": "details",
                 "content": [
                     "In the `h1` tag, note the `{{ name }}` syntax. The double curly braces",
                     "enclose the name of a template variable whose value will be interpolated",
@@ -154,7 +154,7 @@
                 "type": [
                     "markdown"
                 ],
-                "output": "notes",
+                "output": "details",
                 "content": [
                     "This view function renders the `hello-name.html` template and supplies",
                     "the string `'Fred Ziffle'` as the value of the `name` template variable.",
