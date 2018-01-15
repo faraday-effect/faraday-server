@@ -1,7 +1,6 @@
-'use strict';
+// @flow
 
-const Joi = require('joi');
-const Boom = require('boom');
+import talksPlugin from './plugins/talks';
 
 // Create a server with a host and port
 const server = require('hapi').server({
@@ -52,11 +51,11 @@ async function start() {
     });
 
     await server.register(require('./plugins/quizzes'));
-    await server.register(require('./plugins/talks'));
+    await server.register(talksPlugin);
     await server.register(require('./plugins/users'));
 
     await server.start();
-    console.log('Server running at:', server.info.uri);
+    console.log(`Server running at: ${server.info.uri}`);
 }
 
 start().catch(err => {

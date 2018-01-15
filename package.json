@@ -6,12 +6,18 @@
   "author": "Tom Nurkkala <tnurkkala@cse.taylor.edu>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "babel-node": "babel-node",
+    "watch": "nodemon --exec npm run babel-node -- ./server.js"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
     "blipp": "^3.0.0",
     "boom": "^7.1.1",
     "debug": "^3.1.0",
+    "flow-bin": "^0.63.1",
     "good": "^8.0.0-rc1",
     "good-console": "^6.4.1",
     "good-squeeze": "^5.0.2",

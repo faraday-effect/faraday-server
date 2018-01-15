@@ -1,5 +1,7 @@
-const Joi = require('joi');
-const invariant = require('invariant');
+// @flow
+
+import Joi from 'joi';
+import invariant from 'invariant';
 
 const hljs = require('highlight.js');
 const md = require('markdown-it')({
@@ -18,22 +20,37 @@ const md = require('markdown-it')({
     }
 });
 
-function formatSegment(segment) {
+type SegmentType = {
+    key: string,
+    type: Array<string>,
+    output: string,
+    content: Array<string>
+};
+
+type TalkType = {
+    _id: string,
+    topic: string,
+    title: string,
+    outputMap: { [string]: Array<string> },
+    segments: Array<SegmentType>
+};
+
+function formatSegment(segment: SegmentType) {
     const contentString = segment.content.join('\n');
     switch (segment.type[0]) {
         case 'listing':
-            invariant(segment.type.length >= 2, `Invalid listing type: ${segment.type}`);
+            invariant(segment.type.length >= 2, `Invalid listing type: ${segment.type.join()}`);
             const language = segment.type[1];
             const hlCode = hljs.highlight(language, contentString);
             return `<pre><code class="${language} hljs">${hlCode.value}</code></pre>`;
         case 'markdown':
             return md.render(contentString);
         default:
-            throw new Error(`Invalid segment type: ${segment.type}`);
+            throw new Error(`Invalid segment type: ${segment.type.join()}`);
     }
 }
 
-function formatTalk(talk, destination, allSegments) {
+function formatTalk(talk: TalkType, destination: string, allSegments: boolean) {
     const matchingOutputs = new Set();
     matchingOutputs.add(destination);
     for (let key of Object.keys(talk.outputMap)) {
@@ -70,7 +87,7 @@ function formatTalk(talk, destination, allSegments) {
 const talksPlugin = {
     name: 'talks',
     version: '1.0.0',
-    register: function (server, options) {
+    register: function (server: $FlowTODO, options: $FlowTODO) {
         server.route([
             {
                 method: 'POST',
@@ -118,4 +135,4 @@ const talksPlugin = {
     }
 };
 
-module.exports = talksPlugin;
+export default talksPlugin;
