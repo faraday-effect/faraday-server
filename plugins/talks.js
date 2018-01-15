@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const invariant = require('invariant');
+
 const hljs = require('highlight.js');
 const md = require('markdown-it')({
     html: true,
@@ -32,6 +33,34 @@ function formatSegment(segment) {
     }
 }
 
+function formatTalk(talk, destination) {
+    const matchingOutputs = new Set();
+    matchingOutputs.add(destination);
+    for (let key of Object.keys(talk.outputMap)) {
+        if (talk.outputMap[key].find(entry => entry === destination)) {
+            matchingOutputs.add(key);
+        }
+    }
+
+    const results = [];
+    talk.segments.map((segment, idx) => {
+        if (matchingOutputs.has(segment.output)) {
+            results.push({
+                key: segment.key || `segment-${idx}`,
+                type: segment.type,
+                content: formatSegment(segment)
+            });
+        }
+    });
+
+    return {
+        _id: talk._id,
+        title: talk.title,
+        topic: talk.topic,
+        segments: results
+    };
+}
+
 const talksPlugin = {
     name: 'talks',
     version: '1.0.0',
@@ -49,46 +78,32 @@ const talksPlugin = {
             },
             {
                 method: 'GET',
-                path: '/api/talks/{destination}',
+                path: '/api/talks/{talkId?}',
                 options: {
                     cors: true,
                     validate: {
                         params: {
-                            destination: Joi.string().valid('projector', 'podium', 'participant', 'publication')
+                            talkId: Joi.string()
+                        },
+                        query: {
+                            destination: Joi.string()
+                                .valid('projector', 'podium', 'participant', 'publication')
+                                .default('podium')
                         }
                     }
                 },
                 handler: async function (request, h) {
-                    const talks = await request.mongo.db.collection('talks').find().toArray();
+                    const db = request.mongo.db;
+                    const ObjectID = request.mongo.ObjectID;
 
-                    const allResults = [];
-                    for (let talk of talks) {
-                        const matchingOutputs = new Set();
-                        matchingOutputs.add(request.params.destination);
-                        for (let key of Object.keys(talk.outputMap)) {
-                            if (talk.outputMap[key].find(entry => entry === request.params.destination)) {
-                                matchingOutputs.add(key);
-                            }
-                        }
-
-                        const results = [];
-                        talk.segments.map((segment, idx) => {
-                            if (matchingOutputs.has(segment.output)) {
-                                results.push({
-                                    key: segment.key || `segment-${idx}`,
-                                    type: segment.type,
-                                    content: formatSegment(segment)
-                                });
-                            }
-                        });
-                        allResults.push({
-                            title: talk.title,
-                            topic: talk.topic,
-                            segments: results
-                        });
+                    if (request.params.talkId) {
+                        const query = { _id: new ObjectID(request.params.talkId)};
+                        const talk = await db.collection('talks').findOne(query);
+                        return formatTalk(talk, request.query.destination);
+                    } else {
+                        const talks = await request.mongo.db.collection('talks').find().toArray();
+                        return talks.map(talk => formatTalk(talk, request.query.destination));
                     }
-
-                    return allResults;
                 }
             }
         ]);

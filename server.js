@@ -9,7 +9,6 @@ const server = require('hapi').server({
     port: 8000
 });
 
-
 // Start the server
 async function start() {
 
