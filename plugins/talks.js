@@ -33,7 +33,7 @@ function formatSegment(segment) {
     }
 }
 
-function formatTalk(talk, destination) {
+function formatTalk(talk, destination, allSegments) {
     const matchingOutputs = new Set();
     matchingOutputs.add(destination);
     for (let key of Object.keys(talk.outputMap)) {
@@ -44,11 +44,17 @@ function formatTalk(talk, destination) {
 
     const results = [];
     talk.segments.map((segment, idx) => {
+        let segmentKey = segment.key || `segment-${idx}`;
         if (matchingOutputs.has(segment.output)) {
             results.push({
-                key: segment.key || `segment-${idx}`,
+                key: segmentKey,
                 type: segment.type,
                 content: formatSegment(segment)
+            });
+        } else if (allSegments) {
+            results.push({
+                key: segmentKey,
+                content: ''
             });
         }
     });
@@ -86,9 +92,11 @@ const talksPlugin = {
                             talkId: Joi.string()
                         },
                         query: {
-                            destination: Joi.string()
+                            destination: Joi.string().description('Destination for this talk')
                                 .valid('projector', 'podium', 'participant', 'publication')
-                                .default('podium')
+                                .default('podium'),
+                            allSegments: Joi.boolean().description('Include non-selected segments?')
+                                .default(false)
                         }
                     }
                 },
@@ -99,10 +107,10 @@ const talksPlugin = {
                     if (request.params.talkId) {
                         const query = { _id: new ObjectID(request.params.talkId)};
                         const talk = await db.collection('talks').findOne(query);
-                        return formatTalk(talk, request.query.destination);
+                        return formatTalk(talk, request.query.destination, request.query.allSegments);
                     } else {
                         const talks = await request.mongo.db.collection('talks').find().toArray();
-                        return talks.map(talk => formatTalk(talk, request.query.destination));
+                        return talks.map(talk => formatTalk(talk, request.query.destination, request.query.allSegments));
                     }
                 }
             }
