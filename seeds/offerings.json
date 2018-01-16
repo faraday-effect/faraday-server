@@ -1,10 +1,10 @@
 [
   {
-    "courseKey": "sys394",
+    "courseUid": "sys394",
     "semester": "spring2018",
     "sections": [
       {
-        "key": "section1",
+        "uid": "section1",
         "teacher": "genepoole",
         "meetings": [
           {
@@ -28,7 +28,7 @@
         ]
       },
       {
-        "key": "section2",
+        "uid": "section2",
         "teacher": "mobilhome",
         "meetings": [
           {
@@ -53,32 +53,7 @@
       }
     ],
     "topics": [
-      {
-        "title": "Async JavaScript 1",
-        "cells": [
-          {
-            "lectureKey": "callbacks",
-            "type": "lecture"
-          },
-          {
-            "quizKey": "python-bridge-quiz",
-            "type":"quiz"
-          }
-        ]
-      },
-      {
-        "title": "Async JavaScript 2",
-        "cells": [
-          {
-            "lectureKey": "promises",
-            "type": "lecture"
-          },
-          {
-            "quizKey": "promise-quiz",
-            "type":"quiz"
-          }
-        ]
-      }
+      "flask-templates"
     ]
   }
 ]
