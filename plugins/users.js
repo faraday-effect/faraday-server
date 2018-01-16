@@ -6,9 +6,6 @@ const usersPlugin = {
             {
                 method: 'GET',
                 path: '/api/users',
-                options: {
-                    cors: true
-                },
                 handler: async function(request, h) {
                     try {
                         return await request.mongo.db.collection('users').find().toArray();
@@ -21,9 +18,6 @@ const usersPlugin = {
             {
                 method: 'POST',
                 path: '/api/users',
-                options: {
-                    cors: true
-                },
                 handler: async function(request, h) {
                     return await request.mongo.db.collection('users').insertOne(request.payload);
                 }

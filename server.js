@@ -1,11 +1,15 @@
 // @flow
 
-import talksPlugin from './plugins/talks';
+import talksPlugin from './plugins/topics';
+import listingsPlugin from "./plugins/listings";
 
 // Create a server with a host and port
 const server = require('hapi').server({
     host: 'localhost',
-    port: 8000
+    port: 8000,
+    routes: {
+        cors: true          // TODO: Rethink this
+    }
 });
 
 // Start the server
@@ -53,6 +57,7 @@ async function start() {
     await server.register(require('./plugins/quizzes'));
     await server.register(talksPlugin);
     await server.register(require('./plugins/users'));
+    await server.register(listingsPlugin);
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);

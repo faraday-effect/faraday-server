@@ -1,24 +1,20 @@
 [
   {
     "uid": "flask-templates",
-    "title": "Flask Templates",
+    "title": "Flask/Jinja Templates",
+    "intro": [
+      "Templates provide a convenient way to create an HTML page. Flask’s",
+      "`render_template` method takes the name of a template file and converts",
+      "it to a string that you can return from a view function."
+    ],
     "cells": [
-      {
-        "type": "cue-card",
-        "title": "Flask/Jinja Templates",
-        "content": [
-          "Templates provide a convenient way to create an HTML page. Flask’s",
-          "`render_template` method takes the name of a template file and converts",
-          "it to a string that you can return from a view function."
-        ]
-      },
       {
         "type": "listing",
         "uid": "flask-static-templates"
       },
       {
         "type": "listing",
-        "uid": "flask-basic-templates"
+        "listingUid": "flask-basic-templates"
       }
     ]
   }

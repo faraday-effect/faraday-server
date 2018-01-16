@@ -6,9 +6,6 @@ const quizzesPlugin = {
             {
                 method: 'GET',
                 path: '/api/quizzes',
-                options: {
-                    cors: true
-                },
                 handler: async function(request, h) {
                     try {
                         return await request.mongo.db.collection('quizzes').find().toArray();

@@ -10,7 +10,7 @@
                 ]
             },
             {
-                "type": "listing",
+                "type": "code",
                 "meta": {
                     "language": "python",
                     "fileName": "app.py"
@@ -28,7 +28,7 @@
                 ]
             },
             {
-                "type": "listing",
+                "type": "code",
                 "meta": {
                     "language": "html",
                     "fileName": "templates/hello.html"
@@ -65,7 +65,7 @@
                 ]
             },
             {
-                "type": "listing",
+                "type": "code",
                 "meta": {
                     "language": "html",
                     "fileName": "templates/hello-name.html"
@@ -95,7 +95,7 @@
                 ]
             },
             {
-                "type": "listing",
+                "type": "code",
                 "meta": {
                     "language": "python",
                     "fileName": "app.py"
@@ -115,7 +115,7 @@
                 ]
             },
             {
-                "type": "listing",
+                "type": "code",
                 "meta": {
                     "language": "html"
                 },
