@@ -12,11 +12,11 @@ const listingsPlugin = {
         server.route([
             {
                 method: 'GET',
-                path: '/api/listings/{listingUid?}',
+                path: '/api/listings/{uid?}',
                 options: {
                     validate: {
                         params: {
-                            listingUid: Joi.string()
+                            uid: Joi.string()
                         }
                     },
                     response: {
@@ -33,8 +33,8 @@ const listingsPlugin = {
                     }
                 },
                 handler: async function (request, h) {
-                    if (request.params.listingUid) {
-                        const listing: ListingType = await fetchListing(request.mongo, request.params.listingUid);
+                    if (request.params.uid) {
+                        const listing: ListingType = await fetchListing(request.mongo, request.params.uid);
                         return renderListing(listing);
                     } else {
                         const listings = await request.mongo.db.collection('listings').find().toArray();

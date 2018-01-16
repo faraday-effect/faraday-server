@@ -62,11 +62,11 @@ const topicsPlugin = {
             },
             {
                 method: 'GET',
-                path: '/api/topics/{topicUid?}',
+                path: '/api/topics/{uid?}',
                 options: {
                     validate: {
                         params: {
-                            topicUid: Joi.string()
+                            uid: Joi.string()
                         }
                     },
                     response: {
@@ -85,8 +85,8 @@ const topicsPlugin = {
                 handler: async function (request, h) {
                     const mongo = request.mongo;
 
-                    if (request.params.topicUid) {
-                        const query = { uid: request.params.topicUid};
+                    if (request.params.uid) {
+                        const query = { uid: request.params.uid};
                         const topic: TopicType = await mongo.db.collection('topics').findOne(query);
                         return await renderTopic(request.mongo, topic);
                     } else {

@@ -3,8 +3,7 @@
   "presets": [
     ["env",
       {
-        "targets": {"node": "current"},
-        "debug": true
+        "targets": {"node": "current"}
       }
     ],
     "flow"
