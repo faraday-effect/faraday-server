@@ -77,6 +77,7 @@ function formatTalk(talk: TalkType, destination: string, allSegments: boolean) {
         } else if (allSegments) {
             results.push({
                 key: segmentKey,
+                type: segment.type,
                 content: ''
             });
         }
@@ -130,7 +131,7 @@ const talksPlugin = {
                             segments: Joi.array().items(Joi.object({
                                 key: Joi.string(),
                                 type: Joi.array().items(Joi.string()),
-                                content: Joi.string()
+                                content: Joi.string().allow('')
                             }))
                         })
                     }
