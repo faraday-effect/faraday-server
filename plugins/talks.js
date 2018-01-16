@@ -27,8 +27,14 @@ type SegmentType = {
     content: Array<string>
 };
 
+type MongoObjectIdType = {
+    id: string,
+    _bsontype: string,
+    toHexString: () => string
+};
+
 type TalkType = {
-    _id: string,
+    _id: MongoObjectIdType,
     topic: string,
     title: string,
     outputMap: { [string]: Array<string> },
@@ -77,7 +83,7 @@ function formatTalk(talk: TalkType, destination: string, allSegments: boolean) {
     });
 
     return {
-        _id: talk._id,
+        _id: talk._id.toHexString(),
         title: talk.title,
         topic: talk.topic,
         segments: results
@@ -115,6 +121,18 @@ const talksPlugin = {
                             allSegments: Joi.boolean().description('Include non-selected segments?')
                                 .default(false)
                         }
+                    },
+                    response: {
+                        schema: Joi.object({
+                            _id: Joi.string(),
+                            title: Joi.string(),
+                            topic: Joi.string(),
+                            segments: Joi.array().items(Joi.object({
+                                key: Joi.string(),
+                                type: Joi.array().items(Joi.string()),
+                                content: Joi.string()
+                            }))
+                        })
                     }
                 },
                 handler: async function (request, h) {
@@ -123,7 +141,7 @@ const talksPlugin = {
 
                     if (request.params.talkId) {
                         const query = { _id: new ObjectID(request.params.talkId)};
-                        const talk = await db.collection('talks').findOne(query);
+                        const talk: TalkType = await db.collection('talks').findOne(query);
                         return formatTalk(talk, request.query.destination, request.query.allSegments);
                     } else {
                         const talks = await request.mongo.db.collection('talks').find().toArray();

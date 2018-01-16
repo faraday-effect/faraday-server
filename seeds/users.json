@@ -28,5 +28,15 @@
     "mobilePhone": "765-555-1212",
     "officePhone": "",
     "officeLocation": ""
+  },
+  {
+    "key": "paddyofurniture",
+    "firstName": "Paddy",
+    "lastName": "O'Furniture",
+    "roleKey": "teacher",
+    "email": "paddyy@example.com",
+    "mobilePhone": "765-555-9823",
+    "officePhone": "",
+    "officeLocation": "Euler 040"
   }
 ]

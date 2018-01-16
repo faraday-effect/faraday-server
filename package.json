@@ -11,13 +11,9 @@
     "watch": "nodemon --exec npm run babel-node -- ./server.js"
   },
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-flow": "^6.23.0",
     "blipp": "^3.0.0",
     "boom": "^7.1.1",
     "debug": "^3.1.0",
-    "flow-bin": "^0.63.1",
     "good": "^8.0.0-rc1",
     "good-console": "^6.4.1",
     "good-squeeze": "^5.0.2",
@@ -28,13 +24,17 @@
     "joi": "^13.1.0",
     "markdown-it": "^8.4.0",
     "mongodb": "^3.0.1",
-    "nes": "^7.0.2"
+    "nes": "^7.0.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
     "faker": "^4.1.0",
-    "nodemon": "^1.14.7",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
+    "flow-bin": "^0.63.1",
+    "nodemon": "^1.14.11",
     "yargs": "^10.1.1"
   }
 }

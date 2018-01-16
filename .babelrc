@@ -1,6 +1,9 @@
 {
   "presets": [
-    "env",
+    ["env", {
+      "targets": {"node": "current"},
+      "debug": true
+    }],
     "flow"
   ]
 }
