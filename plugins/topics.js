@@ -1,7 +1,7 @@
 // @flow
 
 import Joi from 'joi';
-import invariant from 'invariant';
+import Promise from 'bluebird';
 
 import type { MarkdownSource } from '../lib/markdown'
 import { renderMarkdown } from '../lib/markdown';
@@ -30,19 +30,21 @@ type TopicType = {
 async function renderCell(mongo: $FlowTODO, cell: CellType) {
     switch (cell.type) {
         case "listing":
-            const listing: ListingType = await fetchListing(mongo, cell.uid)
-            return renderListing(listing);
+            const listing: ListingType = await fetchListing(mongo, cell.uid);
+            return {
+                type: cell.type,
+                ...renderListing(listing)
+            };
         default:
             throw new Error(`Invalid cell type: ${cell.type}`);
     }
 }
 
-function renderTopic(mongo: $FlowTODO, topic: TopicType) {
+async function renderTopic(mongo: $FlowTODO, topic: TopicType) {
     return {
-        uid: topic.uid,
-        title: topic.title,
+        ...topic,
         intro: renderMarkdown(topic.intro),
-        cells: topic.cells.map(cell => renderCell(mongo, cell))
+        cells: await Promise.map(topic.cells, cell => renderCell(mongo, cell))
     };
 }
 
@@ -84,12 +86,12 @@ const topicsPlugin = {
                     const mongo = request.mongo;
 
                     if (request.params.topicUid) {
-                        const query = { _id: new mongo.ObjectID(request.params.topicUid)};
+                        const query = { uid: request.params.topicUid};
                         const topic: TopicType = await mongo.db.collection('topics').findOne(query);
-                        return renderTopic(request.mongo, topic);
+                        return await renderTopic(request.mongo, topic);
                     } else {
                         const topics = await request.mongo.db.collection('topics').find().toArray();
-                        return topics.map(topic => renderTopic(mongo, topic));
+                        return await Promise.map(topics, async (topic) => await renderTopic(mongo, topic));
                     }
                 }
             }

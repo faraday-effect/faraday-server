@@ -14,7 +14,7 @@
       },
       {
         "type": "listing",
-        "listingUid": "flask-basic-templates"
+        "uid": "flask-basic-templates"
       }
     ]
   }

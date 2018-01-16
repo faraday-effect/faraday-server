@@ -11,6 +11,7 @@
     "watch": "nodemon --exec npm run babel-node -- ./server.js"
   },
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "blipp": "^3.0.0",
     "boom": "^7.1.1",
     "debug": "^3.1.0",

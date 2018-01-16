@@ -11,5 +11,8 @@ export type CueCardType = {
 
 export default function renderCueCard(cueCard: CueCardType) {
     const mdContent = renderMarkdown(cueCard.content);
-    return `<div="cue-card title">${cueCard.title}</div>${mdContent}`;
+    return {
+        ...cueCard,
+        content: `<div="cue-card title">${cueCard.title}</div>${mdContent}`
+    };
 }

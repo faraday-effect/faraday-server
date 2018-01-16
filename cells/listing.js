@@ -31,12 +31,14 @@ function renderSegment(segment: SegmentType) {
 
 export function renderListing(listing: ListingType) {
     return {
-        uid: listing.uid,
+        ...listing,
         segments: listing.segments.map(segment => renderSegment(segment))
     }
 }
 
 export async function fetchListing(mongo: $FlowTODO, uid: string) {
-    const query = { _id: new mongo.ObjectID(uid)};
-    return await mongo.db.collection('listings').findOne(query);
+    //const query = { _id: new mongo.ObjectID(uid)};
+    const query = { uid: uid};
+    const listing = await mongo.db.collection('listings').findOne(query);
+    return listing;
 }

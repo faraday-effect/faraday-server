@@ -10,5 +10,8 @@ export type NoteType = {
 
 export default function renderNote(note: NoteType) {
     const mdContent = renderMarkdown(note.content);
-    return `<div="note">${mdContent}</div>`;
+    return {
+        ...note,
+        content: `<div="note">${mdContent}</div>`
+    };
 }

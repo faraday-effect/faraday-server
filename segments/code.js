@@ -17,5 +17,8 @@ export type CodeType = {
 
 export default function renderCode(code: CodeType) {
     const hlCode = hljs.highlight(code.meta.language, code.content.join("\n"));
-    return `<pre><code class="${code.meta.language} hljs">${hlCode.value}</code></pre>`;
+    return {
+        ...code,
+        content: `<pre><code class="${code.meta.language} hljs">${hlCode.value}</code></pre>`
+    };
 }
