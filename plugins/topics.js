@@ -9,6 +9,9 @@ import { renderMarkdown } from '../lib/markdown';
 import {fetchListing, renderListing} from "../cells/listing";
 import type {ListingType} from "../cells/listing";
 
+import {fetchQuiz} from "../cells/quiz";
+import type {QuizType} from "../cells/quiz";
+
 type ObjectIdType = {
     id: string,
     _bsontype: string,
@@ -35,6 +38,12 @@ async function renderCell(mongo: $FlowTODO, cell: CellType) {
                 type: cell.type,
                 ...renderListing(listing)
             };
+        case "quiz":
+            const quiz: QuizType = await fetchQuiz(mongo, cell.uid);
+            return {
+                type: cell.type,
+                ...quiz
+            }
         default:
             throw new Error(`Invalid cell type: ${cell.type}`);
     }

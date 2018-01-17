@@ -1,17 +1,17 @@
 [
   {
     "title": "The Python Bridge",
-    "uid": "python-bridge-quiz",
+    "uid": "python-bridge",
     "questions": [
       {
         "uid": "your-name",
-        "type": "SHORT_ANSWER",
+        "type": "short-answer",
         "required": true,
         "prompt": "What is your name?"
       },
       {
         "uid": "your-quest",
-        "type": "MULTIPLE_CHOICE",
+        "type": "multiple-choice",
         "required": true,
         "prompt": "What is your quest?",
         "options": [
@@ -34,13 +34,13 @@
       },
       {
         "uid": "your-favorite-color",
-        "type": "SHORT_ANSWER",
+        "type": "short-answer",
         "required": false,
         "prompt": "What is your favorite color?"
       },
       {
         "uid": "bunny-preference",
-        "type": "MULTIPLE_CHOICE",
+        "type": "multiple-choice",
         "required": true,
         "prompt": "Killer Bunny?",
         "options": [
@@ -60,11 +60,11 @@
   },
   {
     "title": "JavaScript Promises",
-    "uid": "promise-quiz",
+    "uid": "js-promises",
     "questions": [
       {
         "uid": "promise-basic",
-        "type": "MULTIPLE_CHOICE",
+        "type": "multiple-choice",
         "required": true,
         "prompt": "Are promises part of ES2016?",
         "options": [
