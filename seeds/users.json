@@ -1,39 +1,39 @@
 [
   {
-    "uid": "genepoole",
+    "_id": "genepoole",
     "firstName": "Gene",
     "lastName": "Poole",
-    "roleUid": "teacher",
+    "role_id": "teacher",
     "email": "gene@example.edu",
     "mobilePhone": "765-555-1212",
     "officePhone": "765-555-1234",
     "officeLocation": "Lab 42"
   },
   {
-    "uid": "mobilhome",
+    "_id": "mobilhome",
     "firstName": "Mo",
     "lastName": "Bilhome",
-    "roleUid": "teacher",
+    "role_id": "teacher",
     "email": "mo@example.edu",
     "mobilePhone": "765-555-1212",
     "officePhone": "765-555-1234",
     "officeLocation": "Park Place"
   },
   {
-    "uid": "polyesther",
+    "_id": "polyesther",
     "firstName": "Polly",
     "lastName": "Esther",
-    "roleUid": "student",
+    "role_id": "student",
     "email": "polly@example.com",
     "mobilePhone": "765-555-1212",
     "officePhone": "",
     "officeLocation": ""
   },
   {
-    "uid": "paddyofurniture",
+    "_id": "paddyofurniture",
     "firstName": "Paddy",
     "lastName": "O'Furniture",
-    "roleUid": "teacher",
+    "role_id": "teacher",
     "email": "paddyy@example.com",
     "mobilePhone": "765-555-9823",
     "officePhone": "",

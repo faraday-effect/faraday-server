@@ -1,10 +1,10 @@
 [
   {
-    "courseUid": "sys394",
+    "course_id": "sys394",
     "semester": "spring2018",
     "sections": [
       {
-        "uid": "section1",
+        "_id": "section1",
         "teacher": "genepoole",
         "meetings": [
           {
@@ -28,7 +28,7 @@
         ]
       },
       {
-        "uid": "section2",
+        "_id": "section2",
         "teacher": "mobilhome",
         "meetings": [
           {

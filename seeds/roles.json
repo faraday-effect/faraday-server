@@ -1,10 +1,10 @@
 [
   {
-    "uid": "teacher",
+    "_id": "teacher",
     "name": "Professor"
   },
   {
-    "uid": "student",
+    "_id": "student",
     "name": "Student"
   }
 ]

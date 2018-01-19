@@ -1,6 +1,6 @@
 [
     {
-        "uid": "flask-static-templates",
+        "_id": "flask-static-templates",
         "segments": [
             {
                 "type": "cue-card",
@@ -50,7 +50,7 @@
         ]
     },
     {
-        "uid": "flask-basic-templates",
+        "_id": "flask-basic-templates",
         "segments": [
             {
                 "type": "cue-card",

@@ -12,6 +12,8 @@ import type {ListingType} from "../cells/listing";
 import {fetchQuiz} from "../cells/quiz";
 import type {QuizType} from "../cells/quiz";
 
+import {coerceUid} from "../lib/mongoHelpers";
+
 type ObjectIdType = {
     id: string,
     _bsontype: string,
@@ -19,12 +21,12 @@ type ObjectIdType = {
 };
 
 type CellType = {
-    type: "listing",
-    uid: string
+    type: "listing" | "quiz",
+    cell_id: string
 };
 
 type TopicType = {
-    uid: string,
+    _id: string,
     title: string,
     intro: MarkdownSource,
     cells: Array<CellType>
@@ -33,13 +35,13 @@ type TopicType = {
 async function renderCell(mongo: $FlowTODO, cell: CellType) {
     switch (cell.type) {
         case "listing":
-            const listing: ListingType = await fetchListing(mongo, cell.uid);
+            const listing: ListingType = await fetchListing(mongo, cell.cell_id);
             return {
                 type: cell.type,
                 ...renderListing(listing)
             };
         case "quiz":
-            const quiz: QuizType = await fetchQuiz(mongo, cell.uid);
+            const quiz: QuizType = await fetchQuiz(mongo, cell.cell_id);
             return {
                 type: cell.type,
                 ...quiz
@@ -95,7 +97,7 @@ const topicsPlugin = {
                     const mongo = request.mongo;
 
                     if (request.params.uid) {
-                        const query = { uid: request.params.uid};
+                        const query = { _id: coerceUid(mongo, request.params.uid)};
                         const topic: TopicType = await mongo.db.collection('topics').findOne(query);
                         return await renderTopic(request.mongo, topic);
                     } else {

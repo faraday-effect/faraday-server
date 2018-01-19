@@ -1,7 +1,9 @@
 // @flow
 
+import {coerceUid} from '../lib/mongoHelpers';
+
 type ShortAnswerQuestionType = {
-    uid: string,
+    _id: string,
     type: "short-answer",
     required: boolean,
     prompt: string
@@ -14,7 +16,7 @@ type MultipleChoiceOptionType = {
 };
 
 type MultipleChoiceQuestionType = {
-    uid: string,
+    _id: string,
     type: "multiple-choice",
     required: boolean,
     prompt: string,
@@ -22,13 +24,13 @@ type MultipleChoiceQuestionType = {
 };
 
 export type QuizType = {
-    uid: string,
+    _id: string,
     title: string,
     questions: Array<MultipleChoiceQuestionType | ShortAnswerQuestionType>
 };
 
 export async function fetchQuiz(mongo: $FlowTODO, uid: string): Promise<QuizType> {
-    const query = { uid: uid};
+    const query = { _id: coerceUid(mongo, uid)};
     const quiz: QuizType =  await mongo.db.collection('quizzes').findOne(query);
     return quiz;
 }

@@ -9,10 +9,12 @@ import type { CueCardType } from "../segments/cue-card";
 import renderNote from '../segments/note';
 import type { NoteType } from "../segments/note";
 
+import {coerceUid} from '../lib/mongoHelpers';
+
 type SegmentType = CodeType | CueCardType | NoteType;
 
 export type ListingType = {
-    uid: string,
+    _id: string,
     segments: Array<SegmentType>
 };
 
@@ -37,8 +39,7 @@ export function renderListing(listing: ListingType) {
 }
 
 export async function fetchListing(mongo: $FlowTODO, uid: string) {
-    //const query = { _id: new mongo.ObjectID(uid)};
-    const query = { uid: uid};
+    const query = { _id: coerceUid(mongo, uid)};
     const listing = await mongo.db.collection('listings').findOne(query);
     return listing;
 }

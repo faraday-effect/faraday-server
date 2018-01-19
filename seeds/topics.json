@@ -1,6 +1,6 @@
 [
   {
-    "uid": "flask-templates",
+    "_id": "flask-templates",
     "title": "Flask/Jinja Templates",
     "intro": [
       "Templates provide a convenient way to create an HTML page. Flask’s",
@@ -10,15 +10,15 @@
     "cells": [
       {
         "type": "listing",
-        "uid": "flask-static-templates"
+        "cell_id": "flask-static-templates"
       },
       {
         "type": "quiz",
-        "uid": "python-bridge"
+        "cell_id": "python-bridge"
       },
       {
         "type": "listing",
-        "uid": "flask-basic-templates"
+        "cell_id": "flask-basic-templates"
       }
     ]
   }

@@ -1,14 +1,14 @@
 [
   {
-    "uid": "cos243",
+    "_id": "cos243",
     "title": "Multi-tier Web Application Development"
   },
   {
-    "uid": "sys390",
+    "_id": "sys390",
     "title": "Information Systems Analysis"
   },
   {
-    "uid": "sys394",
+    "_id": "sys394",
     "title": "Information Systems Design"
   }
 ]
