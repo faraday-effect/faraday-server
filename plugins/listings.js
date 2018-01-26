@@ -2,8 +2,8 @@
 
 import Joi from 'joi';
 
-import {fetchListing, renderListing} from '../cells/listing';
-import type {ListingType} from '../cells/listing';
+import {fetchListing, renderListing} from '../sections/listing';
+import type {ListingType} from '../sections/listing';
 
 const listingsPlugin = {
     name: 'listings',

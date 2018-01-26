@@ -18,8 +18,8 @@ function requestJson(endpoint) {
     });
 }
 
-function listCells () {
-    requestJson('cells').then(json => console.log(json));
+function listSections () {
+    requestJson('sections').then(json => console.log(json));
 }
 
 function listQuizzes () {
@@ -72,7 +72,7 @@ const argv = require('yargs')
     .usage('$0 <cmd> [args]')
     .command('add notes <key> <fileName>', 'add notes', {},
         argv => addNotes(argv.key, argv.fileName))
-    .command('list cells', 'list cells', {}, listCells)
+    .command('list sections', 'list sections', {}, listSections)
     .command('list notes', 'list notes', {}, listNotes)
     .command('list quizzes', 'list quizzes', {}, listQuizzes)
     .command('list users', 'list users', {}, listUsers)

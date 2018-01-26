@@ -6,11 +6,11 @@ import Promise from 'bluebird';
 import type { MarkdownSource } from '../lib/markdown'
 import { renderMarkdown } from '../lib/markdown';
 
-import {fetchListing, renderListing} from "../cells/listing";
-import type {ListingType} from "../cells/listing";
+import {fetchListing, renderListing} from "../sections/listing";
+import type {ListingType} from "../sections/listing";
 
-import {fetchQuiz} from "../cells/quiz";
-import type {QuizType} from "../cells/quiz";
+import {fetchQuiz} from "../sections/quiz";
+import type {QuizType} from "../sections/quiz";
 
 import {coerceUid} from "../lib/mongoHelpers";
 
@@ -20,34 +20,34 @@ type ObjectIdType = {
     toHexString: () => string
 };
 
-type CellType = {
+type SectionType = {
     type: "listing" | "quiz",
-    cell_id: string
+    section_id: string
 };
 
 type TopicType = {
     _id: string,
     title: string,
     intro: MarkdownSource,
-    cells: Array<CellType>
+    sections: Array<SectionType>
 };
 
-async function renderCell(mongo: $FlowTODO, cell: CellType) {
-    switch (cell.type) {
+async function renderSection(mongo: $FlowTODO, section: SectionType) {
+    switch (section.type) {
         case "listing":
-            const listing: ListingType = await fetchListing(mongo, cell.cell_id);
+            const listing: ListingType = await fetchListing(mongo, section.section_id);
             return {
-                type: cell.type,
+                type: section.type,
                 ...renderListing(listing)
             };
         case "quiz":
-            const quiz: QuizType = await fetchQuiz(mongo, cell.cell_id);
+            const quiz: QuizType = await fetchQuiz(mongo, section.section_id);
             return {
-                type: cell.type,
+                type: section.type,
                 ...quiz
             }
         default:
-            throw new Error(`Invalid cell type: ${cell.type}`);
+            throw new Error(`Invalid section type: ${section.type}`);
     }
 }
 
@@ -55,7 +55,7 @@ async function renderTopic(mongo: $FlowTODO, topic: TopicType) {
     return {
         ...topic,
         intro: renderMarkdown(topic.intro),
-        cells: await Promise.map(topic.cells, cell => renderCell(mongo, cell))
+        sections: await Promise.map(topic.sections, section => renderSection(mongo, section))
     };
 }
 

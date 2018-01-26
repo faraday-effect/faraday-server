@@ -2,8 +2,8 @@
 
 import Joi from "joi";
 
-import {fetchQuiz} from '../cells/quiz';
-import type {QuizType} from '../cells/quiz';
+import {fetchQuiz} from '../sections/quiz';
+import type {QuizType} from '../sections/quiz';
 
 const quizzesPlugin = {
     name: 'quizzes',

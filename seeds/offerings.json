@@ -2,9 +2,9 @@
   {
     "course_id": "sys394",
     "semester": "spring2018",
-    "sections": [
+    "classSections": [
       {
-        "_id": "section1",
+        "_id": "classSection1",
         "teacher": "genepoole",
         "meetings": [
           {
@@ -28,7 +28,7 @@
         ]
       },
       {
-        "_id": "section2",
+        "_id": "classSection2",
         "teacher": "mobilhome",
         "meetings": [
           {
