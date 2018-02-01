@@ -1,7 +1,7 @@
 [
   {
-    "title": "The Python Bridge",
     "_id": "python-bridge",
+    "title": "The Python Bridge",
     "questions": [
       {
         "_id": "your-name",
@@ -59,8 +59,8 @@
     ]
   },
   {
-    "title": "JavaScript Promises",
     "_id": "js-promises",
+    "title": "JavaScript Promises",
     "questions": [
       {
         "_id": "promise-basic",

@@ -3,7 +3,7 @@
     "_id": "flask-static-templates",
     "segments": [
       {
-        "type": "cue-card",
+        "type": "intertitle",
         "_id": "intro",
         "title": "Static Templates",
         "content": [
@@ -11,7 +11,7 @@
         ]
       },
       {
-        "type": "code",
+        "type": "listing",
         "_id": "view-function",
         "meta": {
           "language": "python",
@@ -31,7 +31,7 @@
         ]
       },
       {
-        "type": "code",
+        "type": "listing",
         "_id": "template",
         "meta": {
           "language": "html",
@@ -57,7 +57,7 @@
     "_id": "flask-basic-templates",
     "segments": [
       {
-        "type": "cue-card",
+        "type": "intertitle",
         "_id": "intro",
         "title": "Basic Templates",
         "content": [
@@ -70,7 +70,7 @@
         ]
       },
       {
-        "type": "code",
+        "type": "listing",
         "_id": "template",
         "meta": {
           "language": "html",
@@ -102,7 +102,7 @@
         ]
       },
       {
-        "type": "code",
+        "type": "listing",
         "_id": "view-function",
         "meta": {
           "language": "python",
@@ -124,7 +124,7 @@
         ]
       },
       {
-        "type": "code",
+        "type": "listing",
         "_id": "result",
         "meta": {
           "language": "html"

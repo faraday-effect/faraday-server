@@ -1,7 +1,9 @@
 // @flow
 
-import talksPlugin from './plugins/topics';
-import listingsPlugin from "./plugins/listings";
+import topicsPlugin from './plugins/topics';
+import lecturesPlugin from "./plugins/lectures";
+import usersPlugin from "./plugins/users";
+import quizzesPlugin from "./plugins/quizzes";
 
 // Create a server with a host and port
 const server = require('hapi').server({
@@ -54,10 +56,10 @@ async function start() {
         }
     });
 
-    await server.register(require('./plugins/quizzes'));
-    await server.register(talksPlugin);
-    await server.register(require('./plugins/users'));
-    await server.register(listingsPlugin);
+    await server.register(quizzesPlugin);
+    await server.register(topicsPlugin);
+    await server.register(usersPlugin);
+    await server.register(lecturesPlugin);
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);

@@ -1,18 +1,29 @@
-// @flow
-
 import Joi from 'joi';
+import {coerceUid} from "../lib/mongoHelpers";
+import type {Lecture} from "../types";
 
-import {fetchListing, renderListing} from '../sections/listing';
-import type {ListingType} from '../sections/listing';
+// CRUD
+export async function readLecture(mongo: $FlowTODO, uid: string) {
+    const query = { _id: coerceUid(mongo, uid)};
+    console.log("QUERY", query);
+    const lecture = await mongo.db.collection('lectures').findOne(query);
+    console.log("LECTURE", lecture);
+    return lecture;
+}
 
-const listingsPlugin = {
-    name: 'listings',
+async function readAllLectures(mongo: $FlowTODO) {
+    return await mongo.db.collection('lectures').find().toArray();
+}
+
+// API
+const lecturesPlugin = {
+    name: 'lectures',
     version: '1.0.0',
-    register: function (server: $FlowTODO, options: $FlowTODO) {
+    register: function (server, options) {
         server.route([
             {
                 method: 'GET',
-                path: '/api/listings/{uid?}',
+                path: '/api/lectures/{uid?}',
                 options: {
                     validate: {
                         params: {
@@ -23,7 +34,7 @@ const listingsPlugin = {
                         // schema: Joi.object({
                         //     _id: Joi.string(),
                         //     title: Joi.string(),
-                        //     listing: Joi.string(),
+                        //     lecture: Joi.string(),
                         //     segments: Joi.array().items(Joi.object({
                         //         key: Joi.string(),
                         //         type: Joi.array().items(Joi.string()),
@@ -34,11 +45,9 @@ const listingsPlugin = {
                 },
                 handler: async function (request, h) {
                     if (request.params.uid) {
-                        const listing: ListingType = await fetchListing(request.mongo, request.params.uid);
-                        return renderListing(listing);
+                        return await readLecture(request.mongo, request.params.uid);
                     } else {
-                        const listings = await request.mongo.db.collection('listings').find().toArray();
-                        return listings.map(listing => renderListing(listing));
+                        return await readAllLectures(request.mongo);
                     }
                 }
             }
@@ -46,4 +55,4 @@ const listingsPlugin = {
     }
 };
 
-export default listingsPlugin;
+export default lecturesPlugin;

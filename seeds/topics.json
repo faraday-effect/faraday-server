@@ -7,18 +7,18 @@
       "`render_template` method takes the name of a template file and converts",
       "it to a string that you can return from a view function."
     ],
-    "sections": [
+    "modules": [
       {
-        "type": "listing",
-        "section_id": "flask-static-templates"
+        "type": "lecture",
+        "module_id": "flask-static-templates"
       },
       {
         "type": "quiz",
-        "section_id": "python-bridge"
+        "module_id": "python-bridge"
       },
       {
-        "type": "listing",
-        "section_id": "flask-basic-templates"
+        "type": "lecture",
+        "module_id": "flask-basic-templates"
       }
     ]
   }

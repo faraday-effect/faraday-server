@@ -2,9 +2,21 @@
 
 import Joi from "joi";
 
-import {fetchQuiz} from '../sections/quiz';
-import type {QuizType} from '../sections/quiz';
+import type {Quiz} from "../types";
 
+import {coerceUid} from "../lib/mongoHelpers";
+
+// CRUD
+export async function readQuiz(mongo: $FlowTODO, uid: string): Promise<Quiz> {
+    const query = { _id: coerceUid(mongo, uid)};
+    return await mongo.db.collection('quizzes').findOne(query);
+}
+
+async function readAllQuizzes(mongo: $FlowTODO) {
+    return await mongo.db.collection('quizzes').find().toArray();
+}
+
+// API
 const quizzesPlugin = {
     name: 'quizzes',
     version: '1.0.0',
@@ -21,10 +33,9 @@ const quizzesPlugin = {
                     },
                     handler: async function (request, h) {
                         if (request.params.uid) {
-                            let quiz: QuizType = await fetchQuiz(request.mongo, request.params.uid);
-                            return quiz;
+                            return await readQuiz(request.mongo, request.params.uid);
                         } else {
-                            return await request.mongo.db.collection('quizzes').find().toArray();
+                            return readAllQuizzes(request.mongo);
                         }
                     }
                 }
@@ -33,4 +44,4 @@ const quizzesPlugin = {
     }
 };
 
-module.exports = quizzesPlugin;
+export default quizzesPlugin;

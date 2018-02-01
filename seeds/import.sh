@@ -10,8 +10,9 @@ function banner () {
     echo "====== $1 ======"
 }
 
-for c in courses listings offerings quizzes roles semesters topics users
+for file in ./*.json
 do
+    c=$(basename ${file} .json)
     echo "== $c"
     output=$(mongo --quiet faraday --eval "db.$c.drop()")
     if [[ $output = "true" ]]
@@ -21,7 +22,7 @@ do
         status "mongo" "failed to drop $c; continuing"
     fi
 
-    output=$(mongoimport --quiet --db=faraday --collection=${c} --jsonArray --file=${c}.json)
+    output=$(mongoimport --quiet --db=faraday --collection=${c} --jsonArray --file=${file})
     if [[ $? == 0 ]]
     then
         status "mongoimport" "imported $c"

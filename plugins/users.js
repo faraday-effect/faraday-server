@@ -26,4 +26,4 @@ const usersPlugin = {
     }
 };
 
-module.exports = usersPlugin;
+export default usersPlugin;
