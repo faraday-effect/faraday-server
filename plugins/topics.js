@@ -37,8 +37,21 @@ async function resolveModules(mongo: $FlowTODO, topic: Topic) {
     return result;
 }
 
-function needABetterName(object) {
+function toIdMap(objs) {
+    const objsById = _.map(objs, obj => ({ [obj._id]: obj }));
+    const oneObj = objsById.reduce((acc, obj) => {
+        _.forEach(_.keys(obj), key => acc[key] = obj[key])
+        return acc;
+    }, {});
+    return oneObj;
+}
 
+function multiIdMap(topLevel) {
+    const result = {};
+    _.forEach(_.keys(topLevel), key => {
+        result[key] = { byId: toIdMap(topLevel[key]) };
+    });
+    return result;
 }
 
 async function readTopic(mongo: $FlowTODO, uid: string) {
@@ -46,10 +59,12 @@ async function readTopic(mongo: $FlowTODO, uid: string) {
     const topic: Topic = await mongo.db.collection('topics').findOne(query);
     const modules = await resolveModules(mongo, topic);
 
-    return {
+    const result = {
         topics: [topic],
         ...modules
-    }
+    };
+    return result;
+    //return multiIdMap(result);
 }
 
 async function readAllTopics(mongo: $FlowTODO) {
@@ -62,8 +77,7 @@ async function readAllTopics(mongo: $FlowTODO) {
             allResults[key] = allResults[key].concat(oneResult[key]);
         })
     }
-
-    return allResults;
+    return multiIdMap(allResults);
 }
 
 // API
