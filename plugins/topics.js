@@ -2,6 +2,7 @@
 
 import Joi from 'joi';
 import _ from 'lodash';
+import invariant from 'invariant';
 
 import {coerceUid} from "../lib/mongoHelpers";
 
@@ -10,74 +11,55 @@ import {readLecture} from "./lectures";
 import {readQuiz} from "./quizzes";
 
 // CRUD
-async function resolveModules(mongo: $FlowTODO, topic: Topic) {
+async function resolveModules(mongo: $FlowTODO, topics: Array<Topic>) {
     const result = {};
+
+    const readLookupTable = {
+        lecture: readLecture,
+        quiz: readQuiz
+    };
 
     // This is a nice, simple way to invoke async database functions sequentially. Note that
     // topic.modules.forEach(...) does NOT work (see the link below). It is also possible do
     // handle these requests all in parallel with Promise.map from Bluebird.
     // See https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
-    for (let module of topic.modules) {
-        switch (module.type) {
-            case 'lecture':
-                result.lectures = result.lectures || [];
-                const lecture = await readLecture(mongo, module.moduleId);
-                result.lectures.push(lecture);
-                break;
-            case 'quiz':
-                result.quizzes = result.quizzes || [];
-                const quiz = await readQuiz(mongo, module.moduleId);
-                result.quizzes.push(quiz);
-                break;
-            default:
-                throw new Error(`Invalid module type ${module.type}`);
+
+    for (let topic of topics) {
+        for (let module of topic.modules) {
+            const type = module.type;
+            if (!result[type]) {
+                result[type] = {};
+            }
+            const readFn = readLookupTable[type];
+            invariant(readFn, `No read function for module type '${type}'`);
+            result[type][module.moduleId] = await readFn(mongo, module.moduleId);
         }
     }
 
     return result;
 }
 
-function toIdMap(objs) {
-    const objsById = _.map(objs, obj => ({ [obj._id]: obj }));
-    const oneObj = objsById.reduce((acc, obj) => {
-        _.forEach(_.keys(obj), key => acc[key] = obj[key])
-        return acc;
-    }, {});
-    return oneObj;
-}
-
-function multiIdMap(topLevel) {
-    const result = {};
-    _.forEach(_.keys(topLevel), key => {
-        result[key] = { byId: toIdMap(topLevel[key]) };
-    });
-    return result;
-}
-
 async function readTopic(mongo: $FlowTODO, uid: string) {
     const query = {_id: coerceUid(mongo, uid)};
-    const topic: Topic = await mongo.db.collection('topics').findOne(query);
-    const modules = await resolveModules(mongo, topic);
+    const topic = await mongo.db.collection('topics').findOne(query);
 
-    const result = {
-        topics: [topic],
+    const modules = await resolveModules(mongo, [topic]);
+
+    return {
+        topic: { [topic._id]: topic},
         ...modules
     };
-    return result;
-    //return multiIdMap(result);
 }
 
 async function readAllTopics(mongo: $FlowTODO) {
-    const docs = await mongo.db.collection('topics').find({}, {_id: 1}).toArray();
-    let allResults = {}
-    for (let doc of docs) {
-        const oneResult = await readTopic(mongo, doc._id);
-        _.forEach(_.keys(oneResult), key => {
-            allResults[key] = allResults[key] || [];
-            allResults[key] = allResults[key].concat(oneResult[key]);
-        })
+    const topics = await mongo.db.collection('topics').find().toArray();
+
+    const modules = await resolveModules(mongo, topics);
+
+    return {
+        topic: _.fromPairs(_.map(topics, topic => [ topic._id, topic ])),
+        ...modules
     }
-    return multiIdMap(allResults);
 }
 
 // API
