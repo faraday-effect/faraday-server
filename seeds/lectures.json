@@ -134,5 +134,19 @@
         ]
       }
     ]
+  },
+  {
+    "_id": "very-short-lecture",
+    "segments": [
+      {
+        "type": "intertitle",
+        "_id": "zowie",
+        "title": "Wowie Zowie",
+        "content": [
+          "The cat's got soul.",
+          "He's the rock that doesn't roll"
+        ]
+      }
+    ]
   }
 ]

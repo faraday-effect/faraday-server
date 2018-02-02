@@ -7,7 +7,7 @@ import type {Quiz} from "../types";
 import {coerceUid} from "../lib/mongoHelpers";
 
 // CRUD
-export async function readQuiz(mongo: $FlowTODO, uid: string): Promise<Quiz> {
+export async function readQuiz(mongo: $FlowTODO, uid: string) {
     const query = { _id: coerceUid(mongo, uid)};
     return await mongo.db.collection('quizzes').findOne(query);
 }

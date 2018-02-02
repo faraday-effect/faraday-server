@@ -5,10 +5,7 @@ import type {Lecture} from "../types";
 // CRUD
 export async function readLecture(mongo: $FlowTODO, uid: string) {
     const query = { _id: coerceUid(mongo, uid)};
-    console.log("QUERY", query);
-    const lecture = await mongo.db.collection('lectures').findOne(query);
-    console.log("LECTURE", lecture);
-    return lecture;
+    return await mongo.db.collection('lectures').findOne(query);
 }
 
 async function readAllLectures(mongo: $FlowTODO) {

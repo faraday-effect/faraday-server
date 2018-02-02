@@ -10,16 +10,34 @@
     "modules": [
       {
         "type": "lecture",
-        "module_id": "flask-static-templates"
+        "moduleId": "flask-static-templates"
       },
       {
         "type": "quiz",
-        "module_id": "python-bridge"
+        "moduleId": "python-bridge"
       },
       {
         "type": "lecture",
-        "module_id": "flask-basic-templates"
+        "moduleId": "flask-basic-templates"
+      }
+    ]
+  },
+  {
+    "_id": "another-topic",
+    "title": "Topic Title",
+    "intro": [
+      "This topic is a stunner."
+    ],
+    "modules": [
+      {
+        "type": "lecture",
+        "moduleId": "very-short-lecture"
+      },
+      {
+        "type": "quiz",
+        "moduleId": "js-promises"
       }
     ]
   }
 ]
+

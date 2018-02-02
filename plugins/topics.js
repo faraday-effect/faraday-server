@@ -1,35 +1,17 @@
 // @flow
 
 import Joi from 'joi';
-import Promise from 'bluebird';
+import _ from 'lodash';
 
 import {coerceUid} from "../lib/mongoHelpers";
 
 import type {Lecture, Module, Quiz, Topic} from "../types";
-//import {readLecture} from "./lectures";
-//import {readQuiz} from "./quizzes";
-
-async function readLecture(mongo: $FlowTODO, uid: string) {
-    const query = { _id: coerceUid(mongo, uid)};
-    return await mongo.db.collection('lectures').findOne(query);
-}
-
-async function readQuiz(mongo: $FlowTODO, uid: string) {
-    const query = { _id: coerceUid(mongo, uid)};
-    return await mongo.db.collection('quizzes').findOne(query);
-}
+import {readLecture} from "./lectures";
+import {readQuiz} from "./quizzes";
 
 // CRUD
-async function readTopic(mongo: $FlowTODO, uid: string) {
-    const result = {
-        topics: { byId: {} },
-        lectures: { byId: {} },
-        quizzes: { byId: {} }
-    };
-
-    const query = {_id: coerceUid(mongo, uid)};
-    const topic: Topic = await mongo.db.collection('topics').findOne(query);
-    result.topics.byId[topic._id] = topic;
+async function resolveModules(mongo: $FlowTODO, topic: Topic) {
+    const result = {};
 
     // This is a nice, simple way to invoke async database functions sequentially. Note that
     // topic.modules.forEach(...) does NOT work (see the link below). It is also possible do
@@ -38,12 +20,14 @@ async function readTopic(mongo: $FlowTODO, uid: string) {
     for (let module of topic.modules) {
         switch (module.type) {
             case 'lecture':
-                const lecture = await readLecture(mongo, module.module_id);
-                result.lectures.byId[lecture._id] = lecture;
+                result.lectures = result.lectures || [];
+                const lecture = await readLecture(mongo, module.moduleId);
+                result.lectures.push(lecture);
                 break;
             case 'quiz':
-                const quiz = await readQuiz(mongo, module.module_id);
-                result.quizzes.byId[quiz._id] = quiz;
+                result.quizzes = result.quizzes || [];
+                const quiz = await readQuiz(mongo, module.moduleId);
+                result.quizzes.push(quiz);
                 break;
             default:
                 throw new Error(`Invalid module type ${module.type}`);
@@ -53,10 +37,34 @@ async function readTopic(mongo: $FlowTODO, uid: string) {
     return result;
 }
 
-// async function readAllTopics(mongo: $FlowTODO) {
-//     const topics = await mongo.db.collection('topics').find().toArray();
-//     return await Promise.map(topics, async (topic) => await renderTopic(mongo, topic));
-// }
+function needABetterName(object) {
+
+}
+
+async function readTopic(mongo: $FlowTODO, uid: string) {
+    const query = {_id: coerceUid(mongo, uid)};
+    const topic: Topic = await mongo.db.collection('topics').findOne(query);
+    const modules = await resolveModules(mongo, topic);
+
+    return {
+        topics: [topic],
+        ...modules
+    }
+}
+
+async function readAllTopics(mongo: $FlowTODO) {
+    const docs = await mongo.db.collection('topics').find({}, {_id: 1}).toArray();
+    let allResults = {}
+    for (let doc of docs) {
+        const oneResult = await readTopic(mongo, doc._id);
+        _.forEach(_.keys(oneResult), key => {
+            allResults[key] = allResults[key] || [];
+            allResults[key] = allResults[key].concat(oneResult[key]);
+        })
+    }
+
+    return allResults;
+}
 
 // API
 const topicsPlugin = {
@@ -98,8 +106,8 @@ const topicsPlugin = {
 
                     if (request.params.uid) {
                         return await readTopic(mongo, request.params.uid);
-                    // } else {
-                    //     return await readAllTopics(mongo);
+                    } else {
+                        return await readAllTopics(mongo);
                     }
                 }
             }

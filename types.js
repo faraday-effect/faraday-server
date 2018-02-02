@@ -2,7 +2,7 @@
 
 export type Module = {
     type: "lecture" | "quiz",
-    module_id: string
+    moduleId: string
 };
 
 export type Topic = {
