@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "use-podium",
+    "description": "Can use the podium"
+  },
+  {
+    "_id": "use-projector",
+    "description": "Can use the projector"
+  },
+  {
+    "_id": "participate",
+    "description": "Can participate"
+  }
+]

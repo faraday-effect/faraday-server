@@ -6,7 +6,7 @@ import invariant from 'invariant';
 
 import {coerceUid} from "../lib/mongoHelpers";
 
-import type {Lecture, Module, Quiz, Topic} from "../types";
+import type {Topic} from "../types";
 import {readLecture} from "./lectures";
 import {readQuiz} from "./quizzes";
 

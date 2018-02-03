@@ -70,3 +70,20 @@ export type Quiz = {
     title: string,
     questions: Array<QuizQuestion>
 };
+
+export type Permission = {
+    _id: string,
+    description: string
+};
+
+export type User = {
+    _id: string,
+    firstName: string,
+    lastName: string,
+    roleId: string,
+    permissions: Array<Permission>,
+    email: string,
+    mobilePhone: string,
+    officePhone: string,
+    officeLocation: string
+};
