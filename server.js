@@ -10,7 +10,7 @@ const server = require('hapi').server({
     host: 'localhost',
     port: 8000,
     routes: {
-        cors: true          // TODO: Rethink this
+        cors: true
     }
 });
 

@@ -83,6 +83,7 @@ export type User = {
     roleId: string,
     permissions: Array<Permission>,
     email: string,
+    password: string,
     mobilePhone: string,
     officePhone: string,
     officeLocation: string
