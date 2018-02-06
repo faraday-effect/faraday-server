@@ -5,7 +5,7 @@
     "lastName": "Poole",
     "roleId": "teacher",
     "email": "gene@example.edu",
-    "password": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
+    "hashedPassword": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
     "mobilePhone": "765-555-1212",
     "officePhone": "765-555-1234",
     "officeLocation": "Lab 42"
@@ -16,7 +16,7 @@
     "lastName": "Bilhome",
     "roleId": "teacher",
     "email": "mo@example.edu",
-    "password": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
+    "hashedPassword": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
     "mobilePhone": "765-555-1212",
     "officePhone": "765-555-1234",
     "officeLocation": "Park Place"
@@ -27,7 +27,7 @@
     "lastName": "Esther",
     "roleId": "student",
     "email": "polly@example.com",
-    "password": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
+    "hashedPassword": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
     "mobilePhone": "765-555-1212",
     "officePhone": "",
     "officeLocation": ""
@@ -37,8 +37,8 @@
     "firstName": "Paddy",
     "lastName": "O'Furniture",
     "roleId": "teacher",
-    "email": "paddyy@example.com",
-    "password": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
+    "email": "paddy@example.com",
+    "hashedPassword": "$2a$10$igrswif/lLSNCPrY4pMOyuUVv6CcQVw7a0GnibbnV1I0pp1zwIcNK",
     "mobilePhone": "765-555-9823",
     "officePhone": "",
     "officeLocation": "Euler 040"

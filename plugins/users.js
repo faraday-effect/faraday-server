@@ -5,7 +5,7 @@ import Joi from 'joi';
 import invariant from 'invariant';
 
 import type {Permission, User} from "../types";
-import {checkPassword} from "../lib/password";
+import {authenticateUser} from "../lib/authentication";
 
 // CRUD
 async function resolvePermissions(mongo: $FlowTODO, user: User): Promise<Array<Permission>> {
@@ -15,7 +15,7 @@ async function resolvePermissions(mongo: $FlowTODO, user: User): Promise<Array<P
     return await mongo.db.collection('permissions').find({_id: { $in: role.permissions }}).toArray();
 }
 
-async function readOneUser(mongo: $FlowTODO, email: string): Promise<User> {
+export async function readOneUser(mongo: $FlowTODO, email: string): Promise<User> {
     const user: User = await mongo.db.collection('users').findOne({ email: email });
     if (user) {
         user.permissions = await resolvePermissions(mongo, user);
@@ -27,19 +27,6 @@ async function readAllUsers(mongo: $FlowTODO) {
     return await mongo.db.collection('users').find().toArray();
 }
 
-async function authenticate(mongo: $FlowTODO, email: string, plainTextPassword, string) {
-    const unauthorizedMessage = "Your email address or password are invalid.";
-    const user = await readOneUser(mongo, email);
-    if (!user) {
-        return Boom.unauthorized(unauthorizedMessage);
-    }
-    if (!await checkPassword(plainTextPassword, user.password)) {
-        return Boom.unauthorized(unauthorizedMessage);
-    }
-
-    delete user.password;
-    return user;
-}
 
 // API
 const usersPlugin = {
@@ -75,11 +62,12 @@ const usersPlugin = {
                             email: Joi.string().email().required().description('Email address'),
                             password: Joi.string().required().description('Password')
                         }
-                    }
+                    },
+                    auth: false
                 },
                 handler: async function (request, h) {
                     const {email, password} = request.payload;
-                    return await authenticate(request.mongo, email, password);
+                    return await authenticateUser(request.mongo, email, password);
                 }
             },
             {

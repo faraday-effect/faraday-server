@@ -1,5 +1,9 @@
 // @flow
 
+import hapiAuthJWT from 'hapi-auth-jwt2';
+import {JWT_SECRET_KEY} from './private';
+import {validateUser} from "./lib/authentication";
+
 import topicsPlugin from './plugins/topics';
 import lecturesPlugin from "./plugins/lectures";
 import usersPlugin from "./plugins/users";
@@ -33,6 +37,19 @@ async function start() {
             }
         }
     });
+
+    await server.register(hapiAuthJWT);
+
+    server.auth.strategy('jwt', 'jwt', {
+        key: JWT_SECRET_KEY,
+        verifyOptions: {
+            algorithms: ['HS256']
+        },
+        validate: validateUser
+    });
+
+    // Make all routes authenticated by default.
+    server.auth.default('jwt');
 
     await server.register({
         plugin: require('nes'),

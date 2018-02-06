@@ -82,8 +82,9 @@ export type User = {
     lastName: string,
     roleId: string,
     permissions: Array<Permission>,
+    scope: Array<string>,
     email: string,
-    password: string,
+    hashedPassword: string,
     mobilePhone: string,
     officePhone: string,
     officeLocation: string
