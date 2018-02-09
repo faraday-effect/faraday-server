@@ -8,6 +8,9 @@ import topicsPlugin from './plugins/topics';
 import lecturesPlugin from "./plugins/lectures";
 import usersPlugin from "./plugins/users";
 import quizzesPlugin from "./plugins/quizzes";
+import coursesPlugin from "./plugins/courses";
+import semestersPlugin from "./plugins/semesters";
+import offeringsPlugin from "./plugins/offerings";
 
 // Create a server with a host and port
 const server = require('hapi').server({
@@ -73,10 +76,13 @@ async function start() {
         }
     });
 
+    await server.register(coursesPlugin);
+    await server.register(lecturesPlugin);
+    await server.register(offeringsPlugin);
     await server.register(quizzesPlugin);
+    await server.register(semestersPlugin);
     await server.register(topicsPlugin);
     await server.register(usersPlugin);
-    await server.register(lecturesPlugin);
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
