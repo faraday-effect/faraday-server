@@ -1,14 +1,17 @@
 [
   {
     "_id": "cos243",
+    "designation": "COS 243",
     "title": "Multi-tier Web Application Development"
   },
   {
     "_id": "sys390",
+    "designation": "SYS 390",
     "title": "Information Systems Analysis"
   },
   {
     "_id": "sys394",
+    "designation": "SYS 394",
     "title": "Information Systems Design"
   }
 ]
