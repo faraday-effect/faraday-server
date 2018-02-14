@@ -2,8 +2,8 @@
   {
     "_id": "spring2018",
     "semester": "Spring",
-    "year": "2018",
-    "date": {
+    "year": 2018,
+    "courseDates": {
       "instruction": {
         "start": "2018-01-30",
         "end": "2018-05-11"
@@ -13,12 +13,10 @@
         "end": "2018-05-17"
       }
     },
-    "holidays": [
-      {
-        "name": "Spring Break",
+    "holidays": {
+      "Spring Break": {
         "start": "2018-03-24",
         "end": "2018-04-01"
       }
-    ]
-  }
-]
+    }
+  ]
