@@ -1,7 +1,7 @@
 [
   {
     "_id": "spring2018",
-    "semester": "Spring",
+    "name": "Spring",
     "year": 2018,
     "courseDates": {
       "instruction": {
@@ -19,4 +19,5 @@
         "end": "2018-04-01"
       }
     }
-  ]
+  }
+]

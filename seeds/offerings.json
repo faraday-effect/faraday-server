@@ -1,11 +1,12 @@
 [
   {
+    "_id": "isd-s18",
     "courseId": "sys394",
-    "semester": "spring2018",
-    "classSections": [
+    "semesterId": "spring2018",
+    "sections": [
       {
-        "_id": "classSection1",
-        "teacher": "genepoole",
+        "_id": "section1",
+        "teacherId": "genepoole",
         "meetings": [
           {
             "day": "M",
@@ -28,8 +29,8 @@
         ]
       },
       {
-        "_id": "classSection2",
-        "teacher": "mobilhome",
+        "_id": "section2",
+        "teacherId": "mobilhome",
         "meetings": [
           {
             "day": "M",
@@ -52,7 +53,7 @@
         ]
       }
     ],
-    "topics": [
+    "topicIds": [
       "flask-templates"
     ]
   }
