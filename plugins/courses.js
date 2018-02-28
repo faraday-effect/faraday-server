@@ -8,6 +8,12 @@ async function readAllCourses(mongo: $FlowTODO) {
     return await mongo.db.collection('courses').find().toArray();
 }
 
+async function readOneCourse(mongo: $FlowTODO, courseId: string) {
+    return await mongo.db
+        .collection('courses')
+        .findOne({_id: courseId});
+}
+
 // API
 const coursesPlugin = {
     name: 'courses',
@@ -16,9 +22,13 @@ const coursesPlugin = {
         server.route([
             {
                 method: 'GET',
-                path: '/api/courses',
+                path: '/api/courses/{courseId?}',
                 handler: async function(request, h) {
-                    return await readAllCourses(request.mongo);
+                    if (request.params.courseId) {
+                        return await readOneCourse(request.mongo, request.params.courseId);
+                    } else {
+                        return await readAllCourses(request.mongo);
+                    }
                 }
             }
         ]);
