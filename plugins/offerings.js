@@ -19,13 +19,13 @@ async function readSemesterOfferings(mongo: $FlowTODO, semesterId: string) {
         courseIds.push(obj.courseId);
     }
 
-    const courses = await mongo.db
+    const coursesCursor = await mongo.db
         .collection('courses')
         .find({_id: {$in: courseIds}});
 
     return {
         offerings: await offeringsCursor.toArray(),
-        courses: await courses.toArray()
+        courses: await coursesCursor.toArray()
     };
 }
 
